@@ -10,10 +10,10 @@ need(){ command -v "$1" >/dev/null 2>&1 || { echo "ERROR: $1 not found" >&2; exi
 need git
 need docker
 
-sudo_cmd=""
+sudo_cmd=()
 if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
   if command -v sudo >/dev/null 2>&1; then
-    sudo_cmd="sudo"
+    sudo_cmd=(sudo)
   else
     echo "ERROR: sudo not available; run as root to update packages." >&2
     exit 1
@@ -24,9 +24,9 @@ echo "Stopping Docker Compose stack..."
 docker compose down
 
 echo "Updating system packages..."
-"$sudo_cmd" apt-get update
-"$sudo_cmd" apt-get -y upgrade
-"$sudo_cmd" apt-get -y autoremove
+"${sudo_cmd[@]}" apt-get update
+"${sudo_cmd[@]}" apt-get -y upgrade
+"${sudo_cmd[@]}" apt-get -y autoremove
 
 if [[ -n "$(git status --porcelain)" ]]; then
   echo "ERROR: Working tree is dirty; commit or stash changes before syncing." >&2
