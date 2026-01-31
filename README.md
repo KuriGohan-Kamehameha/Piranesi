@@ -67,5 +67,5 @@ Discord/Redis settings). These variables drive port bindings, IP assignments,
 and application credentials.
 
 Optional image overrides (useful if you host your own images):
-- `BROWSER_USE_WEBUI_IMAGE` (defaults to `browser-use/webui:latest`)
+- `BROWSER_USE_WEBUI_IMAGE` (defaults to `smanx/browser-use-web-ui:latest`)
 - `DISCORD_IMAGE` (defaults to `kevinthedang/discord-ollama:latest`)
