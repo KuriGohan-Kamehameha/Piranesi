@@ -223,6 +223,9 @@ services:
     networks: [ollama-net]
     ports:
       - "${LETTA_PORT:-8283}:8283"
+    environment:
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      - OLLAMA_OPENAI_BASE_URL=${OLLAMA_OPENAI_BASE_URL:-http://ollama:11434/v1}
     volumes:
       - letta_storage:/data
   # ---- SearXNG ----

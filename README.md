@@ -64,7 +64,10 @@ so you know exactly where to connect from your machine.
 Populate `.env` with the values referenced in `docker-compose.yml` (for example
 `SUBNET_ADDRESS`, `OLLAMA_PORT`, `LETTA_PORT`, `POSTGRES_*`, `N8N_*`, and
 Discord/Redis settings). These variables drive port bindings, IP assignments,
-and application credentials.
+and application credentials. For Letta + Ollama, also set
+`OLLAMA_BASE_URL=http://ollama:11434` and
+`OLLAMA_OPENAI_BASE_URL=http://ollama:11434/v1` so the Letta container uses the
+Ollama service in the Compose network rather than `localhost`.
 
 Optional image overrides (useful if you host your own images):
 - `BROWSER_USE_WEBUI_IMAGE` (defaults to `smanx/browser-use-web-ui:latest`)
