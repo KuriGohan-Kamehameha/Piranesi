@@ -43,7 +43,7 @@ x-n8n: &service-n8n
 services:
   # ---- Browser-Use WebUI (uses Ollama in this stack) ----
   browser-use-webui:
-    image: ${BROWSER_USE_WEBUI_IMAGE:-ghcr.io/browser-use/webui:latest}
+    image: ${BROWSER_USE_WEBUI_IMAGE:-smanx/browser-use-web-ui:latest}
     container_name: browser-use-webui
     restart: unless-stopped
     ports:

@@ -70,5 +70,5 @@ and application credentials. For Letta + Ollama, also set
 Ollama service in the Compose network rather than `localhost`.
 
 Optional image overrides (useful if you host your own images):
-- `BROWSER_USE_WEBUI_IMAGE` (defaults to `ghcr.io/browser-use/webui:latest`)
+- `BROWSER_USE_WEBUI_IMAGE` (defaults to `smanx/browser-use-web-ui:latest`)
 - `DISCORD_IMAGE` (defaults to `kevinthedang/discord-ollama:latest`)
