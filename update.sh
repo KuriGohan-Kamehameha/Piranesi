@@ -34,7 +34,8 @@ if [[ -n "$(git status --porcelain)" ]]; then
 fi
 
 echo "Syncing repository..."
-git pull --rebase
+git remote set-url origin https://github.com/KuriGohan-Kamehameha/Piranesi
+git pull --rebase origin main
 
 echo "Starting Docker Compose stack..."
 docker compose up -d
