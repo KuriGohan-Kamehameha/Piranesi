@@ -14,12 +14,16 @@ LLMs, orchestration, data stores, and optional UI tooling.
 - **Postgres**: Persistent database backing n8n workflows.
 - **Qdrant**: Vector database for embeddings and retrieval use cases.
 - **Letta**: Agent runtime and server for stateful assistants.
+- **Whisper (Wyoming)**: Speech-to-text service with a configurable model.
+- **Piper (Wyoming)**: Text-to-speech service with a configurable voice.
 
 ### Applications
 - **Browser-Use WebUI**: A web UI + VNC stack that connects to the Ollama
   service in this Compose network for local model inference.
 - **Discord Bot**: A bot container that points to the Ollama and Redis services
   using the IP/port settings from `.env`.
+- **OpenClaw (optional)**: Gateway + CLI for a personal assistant platform. It is
+  defined under the `openclaw` Compose profile.
 - **n8n**: Workflow automation platform connected to Postgres and Ollama.
   - **n8n-import** runs once at startup to import demo credentials/workflows if
     `./n8n/demo-data` is present.
@@ -43,6 +47,8 @@ Persistent data is stored in named Docker volumes:
 - `n8n_storage` for n8n state
 - `qdrant_storage` for Qdrant data
 - `discord` for the Discord bot workspace
+- `whisper_models` for Whisper model data
+- `piper_models` for Piper voice data
 
 ## Ports exposed to the host
 Each service below lists the host port(s) that are bound in `docker-compose.yml`
@@ -57,6 +63,10 @@ so you know exactly where to connect from your machine.
 - **Qdrant**: `6333`.
 - **Letta**: `${LETTA_PORT:-8283}` → `8283` in the container (defaults to `8283`
   on the host if `LETTA_PORT` is unset).
+- **OpenClaw**: `${OPENCLAW_GATEWAY_PORT:-18789}` → `18789`,
+  `${OPENCLAW_BRIDGE_PORT:-18790}` → `18790` (only when the `openclaw` profile is enabled).
+- **Whisper (Wyoming)**: `10300`.
+- **Piper (Wyoming)**: `10200`.
 - **SearXNG**: `8080`.
 - **Discord bot**: no host port binding (outbound-only service).
 
@@ -69,6 +79,18 @@ and application credentials. For Letta + Ollama, also set
 `OLLAMA_OPENAI_BASE_URL=http://ollama:11434/v1` so the Letta container uses the
 Ollama service in the Compose network rather than `localhost`.
 
+Optional speech configuration variables (defaults are applied if unset):
+- `WHISPER_MODEL` (defaults to `base`)
+- `WHISPER_LANGUAGE` (defaults to `en`)
+- `PIPER_VOICE` (defaults to `hfc-female`)
+
+OpenClaw configuration variables (required if you enable the `openclaw` profile):
+- `OPENCLAW_IMAGE` (defaults to `openclaw/openclaw:latest`)
+- `OPENCLAW_CONFIG_DIR` (defaults to `./openclaw`)
+- `OPENCLAW_WORKSPACE_DIR` (defaults to `./openclaw/workspace`)
+- `OPENCLAW_GATEWAY_TOKEN` (set by OpenClaw onboarding)
+- `OPENCLAW_GATEWAY_PORT` (defaults to `18789`)
+- `OPENCLAW_BRIDGE_PORT` (defaults to `18790`)
 Optional image overrides (useful if you host your own images):
 - `BROWSER_USE_WEBUI_IMAGE` (defaults to `smanx/browser-use-web-ui:latest`)
 - `DISCORD_IMAGE` (defaults to `kevinthedang/discord-ollama:latest`)
